@@ -1,6 +1,9 @@
 import { Component } from "react";
-import NewWeather from "../NewWeather";
 
+import { Audio } from "react-loader-spinner";
+
+import NewWeather from "../NewWeather";
+import "./index.css";
 const apiStatusConstants = {
   initial: "INITIAL",
   success: "SUCCESS",
@@ -77,7 +80,11 @@ class Weather extends Component {
 
     // console.log(country, city);
     const citySelection = (
-      <select onChange={this.onCityChange}>
+      <select
+        onChange={this.onCityChange}
+        id="cityOfEng"
+        className="countryOption"
+      >
         {country.map((each) => (
           <option key={each.population} value={each.name}>
             {each.name}
@@ -91,13 +98,54 @@ class Weather extends Component {
         <NewWeather lat={each.lat} lon={each.lon} />
       </div>
     ));
+
+    const loader = (
+      <Audio
+        height="80"
+        width="80"
+        radius="9"
+        color="green"
+        ariaLabel="loading"
+        wrapperStyle
+        wrapperClass
+      />
+    );
+    const succesView = (
+      <div className="successViewContainer">{newWeatherMapping}</div>
+    );
     console.log("Weather", apiStatus);
+    let finalView = "";
+    switch (apiStatus) {
+      case apiStatusConstants.inProgress:
+        finalView = loader;
+        break;
+      case apiStatusConstants.success:
+        finalView = succesView;
+        break;
+
+      default:
+        finalView = "";
+        break;
+    }
+
     return (
-      <div>
-        <input type="search" onChange={this.onSearchCity} value={searchCity} />
-        <p>options</p>
-        {citySelection}
-        {newWeatherMapping}
+      <div className="mainContainer">
+        <div className="inputContainer">
+          <label htmlFor="search">Search</label>
+          <input
+            id="search"
+            type="search"
+            onChange={this.onSearchCity}
+            value={searchCity}
+            placeholder="Search City name here"
+          />
+        </div>{" "}
+        <div className="labelContainer">
+          <label htmlFor="cityOfEng">City of England</label>
+          {citySelection}
+        </div>
+        <div></div>
+        {finalView}
       </div>
     );
   }

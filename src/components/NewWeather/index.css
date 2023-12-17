@@ -1,0 +1,15 @@
+.weatherContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: skyblue;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+span {
+  color: blue;
+  font-weight: bold;
+}

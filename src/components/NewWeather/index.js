@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+import "./index.css";
+
 const apiStatusConstants = {
   initial: "INITIAL",
   success: "SUCCESS",
@@ -35,6 +37,7 @@ class NewWeather extends Component {
       this.setState({
         primeDeals: fetchedData,
         apiStatus: apiStatusConstants.success,
+        main: fetchedData.weather[0].main,
         weather: fetchedData.weather[0].description,
         icon: fetchedData.weather[0].icon,
       });
@@ -47,7 +50,7 @@ class NewWeather extends Component {
   };
 
   render() {
-    const { primeDeals, apiStatus, newCity, weather, icon } = this.state;
+    const { primeDeals, apiStatus, newCity, weather, icon, main } = this.state;
     // const { each } = this.props;
 
     // console.log("eachProp", each);
@@ -57,14 +60,20 @@ class NewWeather extends Component {
 
     console.log("pm", primeDeals);
     const successView = (
-      <div>
-        {" "}
-        <h1>hi are {weather}</h1>
-        <p>{icon}</p>
-        <img
-          src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
-          alt="icon"
-        />
+      <div className="weatherContainer">
+        <h1>{primeDeals.name}</h1>
+        <p>
+          <span>weather : </span> {weather}
+        </p>
+        {icon !== undefined ? (
+          <img
+            src={`https://openweathermap.org/img/wn/${icon}@2x.png`}
+            alt="icon"
+          />
+        ) : (
+          ""
+        )}{" "}
+        <p>{main}</p>
       </div>
     );
 
